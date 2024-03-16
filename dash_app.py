@@ -2,7 +2,7 @@ from dash import dcc, html, Input, Output, no_update, Dash
 import plotly.graph_objects as go
 import numpy as np
 
-features = np.load('processed/il_features.npz', allow_pickle=True)
+features = np.load('il_features.npz', allow_pickle=True)
 labels = list(map(lambda x: int(~x), features['cls']))
 
 fig = go.Figure(data=[
