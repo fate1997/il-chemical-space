@@ -1,8 +1,12 @@
 from dash import dcc, html, Input, Output, no_update, Dash
 import plotly.graph_objects as go
 import numpy as np
+import pathlib
 
-features = np.load('il_features.npz', allow_pickle=True)
+this_dir = pathlib.Path(__file__).parent
+feature_path = this_dir.parent / 'il_features.npz'
+
+features = np.load(feature_path, allow_pickle=True)
 labels = list(map(lambda x: int(~x), features['cls']))
 
 fig = go.Figure(data=[
@@ -75,4 +79,5 @@ def display_hover(hoverData):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=False)
+    server = app.server
+    app.run_server(debug=True)
