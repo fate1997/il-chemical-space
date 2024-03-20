@@ -12,8 +12,9 @@ feature_path = this_dir.parent / 'data/il_features.npz'
 
 features = np.load(feature_path, allow_pickle=True)
 # Extract the first 100 features
-features = {k: v[:50] for k, v in features.items()}
+# features = {k: v[:50] for k, v in features.items()}
 labels = list(map(lambda x: int(~x), features['cls']))
+images = features['images']
 
 fig = go.Figure(data=[
     go.Scatter(
@@ -69,7 +70,7 @@ def display_hover(hoverData):
     bbox = pt["bbox"]
     num = pt["pointNumber"]
 
-    im_url = features['images'][num]
+    im_url = images[num]
 
     children = [
         html.Div(children=[
