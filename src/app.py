@@ -3,6 +3,10 @@ import plotly.graph_objects as go
 import numpy as np
 import pathlib
 
+app = Dash(__name__)
+server = app.server
+
+
 this_dir = pathlib.Path(__file__).parent
 feature_path = this_dir.parent / 'il_features.npz'
 
@@ -79,5 +83,4 @@ def display_hover(hoverData):
 
 
 if __name__ == "__main__":
-    server = app.server
     app.run_server(debug=True)
