@@ -1,1 +1,1 @@
-web: streamlit run dash_app.py
+gunicorn app:server
