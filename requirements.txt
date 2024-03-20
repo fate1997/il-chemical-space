@@ -1,5 +1,6 @@
-plotly==5.19.0
-numpy==1.26.2
 dash==2.16.1
-streamlit==1.26.0
+numpy==1.24.4
+plotly==5.19.0
+gunicorn
+pandas
 dash-tools
