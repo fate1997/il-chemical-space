@@ -11,6 +11,8 @@ this_dir = pathlib.Path(__file__).parent
 feature_path = this_dir.parent / 'data/il_features.npz'
 
 features = np.load(feature_path, allow_pickle=True)
+# Extract the first 100 features
+features = {k: v[:50] for k, v in features.items()}
 labels = list(map(lambda x: int(~x), features['cls']))
 
 fig = go.Figure(data=[
