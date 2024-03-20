@@ -8,7 +8,7 @@ server = app.server
 
 
 this_dir = pathlib.Path(__file__).parent
-feature_path = this_dir.parent / 'il_features.npz'
+feature_path = this_dir.parent / 'data/il_features.npz'
 
 features = np.load(feature_path, allow_pickle=True)
 labels = list(map(lambda x: int(~x), features['cls']))
@@ -45,14 +45,11 @@ fig.update_layout(
     
 )
 ""
-app = Dash(__name__)
 app.title = "TSNE of IL features for generated novel molecules (white) and non-generated (blue)"
-
 app.layout = html.Div([
     dcc.Graph(id="graph", figure=fig, clear_on_unhover=True),
     dcc.Tooltip(id="graph-tooltip"),
 ])
-
 
 
 @app.callback(
