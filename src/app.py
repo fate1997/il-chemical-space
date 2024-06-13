@@ -13,27 +13,31 @@ feature_path = this_dir.parent / 'data/il_features.npz'
 features = np.load(feature_path, allow_pickle=True)
 # Extract the first 100 features
 # features = {k: v[:50] for k, v in features.items()}
-labels = list(map(lambda x: int(~x), features['cls']))
+labels = features['cls']
 images = features['images']
+images_dict = {}
+images_dict[0] = images[:500]
+images_dict[1] = images[500:1000]
+images_dict[2] = images[1000:]
 
-fig = go.Figure(data=[
-    go.Scatter(
-        x=features['tsne-1'],
-        y=features['tsne-2'],
+traces = []
+id2name = {0: 'Original', 1: 'Ion-level', 2: 'Overall-level'}
+id2color = {0: '#219C90', 1: '#FF6969', 2: '#799351'}
+for i in range(3):
+    traces.append(go.Scatter(
+        x=features['tsne-1'][i*500:(i+1)*500],
+        y=features['tsne-2'][i*500:(i+1)*500],
+        name=id2name[i],
         mode="markers",
         marker=dict(
-            colorscale='blues',
-            color=labels,
-            size=features['molar_weights'],
-            colorbar={"title": "Is<br>generated?"},
-            line={"color": "#444"},
-            reversescale=True,
-            sizeref=45,
+            color=id2color[i],
+            size=features['molar_weights'][i*500:(i+1)*500],
+            sizeref=30,
             sizemode="diameter",
             opacity=0.8,
         ),
-    )
-])
+    ))
+fig = go.Figure(data=traces)
 
 # turn off native plotly.js hover effects - make sure to use
 # hoverinfo="none" rather than "skip" which also halts events.
@@ -69,8 +73,9 @@ def display_hover(hoverData):
     pt = hoverData["points"][0]
     bbox = pt["bbox"]
     num = pt["pointNumber"]
+    curve_number = pt["curveNumber"]
 
-    im_url = images[num]
+    im_url = images_dict[curve_number][num]
 
     children = [
         html.Div(children=[
